@@ -1,50 +1,211 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>My Party</title>
+  <meta charset="UTF-8" />
+  <title>The Woke Party</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      background: #411e78;
+    :root {
+      --purple: #4c0080;
+      --purple-2: #6a0dad;
+      --purple-3: #8533cc;
+      --nav-w: 240px;
+      --nav-collapsed: 8px; /* visible tab when closed */
     }
-    img {
-      display: block;
-      margin: auto;
-      max-width: 100%;
-      max-height: 100vh;
-    }
+    html, body { height: 100%; }
     body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;   /* full viewport height */
-    margin: 0;
-    background: #f4f4f4; /* optional light background */
-  }
-  .chat-button {
-    display: inline-block;
-    padding: 20px 40px;        /* bigger padding = bigger button */
-    font-size: 24px;           /* large text */
-    border-radius: 12px;
-    background: #4c0080;       /* purple */
-    color: #fff;
-    text-decoration: none;
-    font-weight: bold;
-    font-family: Arial, sans-serif;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    transition: background 0.2s, transform 0.1s;
-  }
-  .chat-button:hover {
-    background: #6a0dad;
-    transform: scale(1.05);    /* subtle grow effect */
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: grid;
+      grid-template-columns: 1fr;
+      min-height: 100vh;
+      background: url('your-background.jpg') no-repeat center center fixed;
+      background-size: cover;
+      overflow-x: hidden;
+    }
+
+    /* main content */
+    .content {
+      display: grid;
+      place-items: center;
+      padding: 40px;
+      color: #fff;
+      text-shadow: 0 2px 4px rgba(0,0,0,.7);
+    }
+    .hero {
+      font-size: clamp(28px, 5vw, 56px);
+      text-align: center;
+      margin: 0;
+    }
+
+    /* slide-out nav (right) */
+    nav#sideNav {
+      position: fixed;
+      inset: 0 0 0 auto; /* right side */
+      width: var(--nav-w);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 18px 12px;
+      background: rgba(76,0,128,0.92);
+      box-shadow: -6px 0 20px rgba(0,0,0,.35);
+      transform: translateX(calc(100% - var(--nav-collapsed)));
+      transition: transform 140ms ease-in-out;
+      z-index: 50;
+    }
+    nav#sideNav.open {
+      transform: translateX(0);
+    }
+    /* little visible tab when closed */
+    nav#sideNav::after {
+      content: "";
+      position: absolute;
+      left: -8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 8px;
+      height: 80px;
+      border-radius: 8px 0 0 8px;
+      background: var(--purple-2);
+      box-shadow: -2px 0 6px rgba(0,0,0,.25) inset;
+    }
+
+    .nav-title {
+      color: #fff;
+      font-weight: bold;
+      margin: 4px 8px 8px;
+      opacity: .9;
+    }
+    .nav-links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .nav-links a {
+      display: block;
+      text-align: center;
+      padding: 14px 12px;
+      border-radius: 10px;
+      background: var(--purple-2);
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background .15s, transform .08s;
+      outline: none;
+    }
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      background: var(--purple-3);
+      transform: translateY(-1px);
+    }
+
+    /* hamburger (mobile) */
+    .hamburger {
+      position: fixed;
+      right: 14px;
+      top: 14px;
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      border: none;
+      background: var(--purple);
+      color: #fff;
+      font-size: 22px;
+      line-height: 1;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 60;
+      box-shadow: 0 2px 8px rgba(0,0,0,.25);
+    }
+
+    /* desktop “hot zone” near right edge to auto-open */
+    .hotzone {
+      position: fixed;
+      top: 0; right: 0;
+      width: 36px;  /* mouse near-right activates */
+      height: 100vh;
+      z-index: 40;
+    }
+
+    /* responsive */
+    @media (max-width: 768px) {
+      /* On mobile, nav is fully hidden until hamburger tapped */
+      nav#sideNav {
+        transform: translateX(100%);
+      }
+      nav#sideNav.open {
+        transform: translateX(0);
+      }
+      .hamburger { display: inline-flex; }
+      /* hotzone not needed on mobile */
+      .hotzone { display: none; }
+    }
   </style>
 </head>
 <body>
-  <img src="tmpv_hagi2a.jpg" alt="My Party Image">
-  <a href="/chat" class="chat-button">Speak to our wise leader</a>
+  <div class="content" role="main">
+    <h1 class="hero">Welcome to the Wise Leader’s Domain</h1>
+  </div>
 
+  <!-- Right-side slide-out nav -->
+  <button class="hamburger" aria-controls="sideNav" aria-expanded="false" aria-label="Menu">☰</button>
+  <div class="hotzone" aria-hidden="true"></div>
+
+  <nav id="sideNav" aria-label="Site">
+    <div class="nav-title">Navigate</div>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/chat">Chat</a>
+      <!-- add more later -->
+    </div>
+  </nav>
+
+  <script>
+    (function(){
+      const nav = document.getElementById('sideNav');
+      const burger = document.querySelector('.hamburger');
+      const hotzone = document.querySelector('.hotzone');
+      let closeTimer = null;
+
+      // Desktop: open when mouse nears right edge (hotzone)
+      if (hotzone) {
+        hotzone.addEventListener('mouseenter', () => openNav());
+        hotzone.addEventListener('mousemove', () => openNav());
+      }
+
+      // Close when pointer leaves nav (with small delay to avoid jitter)
+      nav.addEventListener('mouseleave', () => {
+        clearTimeout(closeTimer);
+        closeTimer = setTimeout(() => closeNav(), 250);
+      });
+      nav.addEventListener('mouseenter', () => {
+        clearTimeout(closeTimer);
+      });
+
+      // Keyboard accessibility
+      nav.addEventListener('focusin', openNav);
+      nav.addEventListener('focusout', (e) => {
+        // if focus left the nav entirely, close after delay
+        if (!nav.contains(e.relatedTarget)) {
+          clearTimeout(closeTimer);
+          closeTimer = setTimeout(() => closeNav(), 300);
+        }
+      });
+
+      // Mobile: hamburger toggles
+      burger.addEventListener('click', () => {
+        const isOpen = nav.classList.toggle('open');
+        burger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+
+      function openNav(){ nav.classList.add('open'); }
+      function closeNav(){
+        // Don’t auto-close on mobile; only hamburger controls it
+        if (window.matchMedia('(max-width: 768px)').matches) return;
+        nav.classList.remove('open');
+      }
+    })();
+  </script>
 </body>
 </html>
